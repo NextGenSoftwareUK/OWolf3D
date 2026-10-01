@@ -1,6 +1,9 @@
 // WL_PLAY.C
 
 #include "c_cvars.h"
+#ifdef OASIS_STAR_API
+#include "owolf3d_ogengine_integration.h"
+#endif
 #include "wl_def.h"
 #include "wl_menu.h"
 #include "id_ca.h"
@@ -1067,6 +1070,9 @@ void PlayLoop (void)
 	do
 	{
 		ProcessEvents();
+#ifdef OASIS_STAR_API
+		OWolf3D_STAR_Tick();
+#endif
 
 //
 // actor thinking

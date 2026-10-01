@@ -33,6 +33,9 @@
 */
 
 #include "actor.h"
+#ifdef OASIS_STAR_API
+#include "owolf3d_ogengine_integration.h"
+#endif
 #include "a_inventory.h"
 #include "farchive.h"
 #include "gamemap.h"
@@ -234,7 +237,12 @@ void AActor::Die()
 	}
 
 	if(flags & FL_COUNTKILL)
+	{
 		gamestate.killcount++;
+#ifdef OASIS_STAR_API
+		OWolf3D_STAR_OnKill(GetClass()->GetName().GetChars());
+#endif
+	}
 	flags &= ~FL_SHOOTABLE;
 
 	if(flags & FL_MISSILE)

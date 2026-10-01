@@ -85,6 +85,11 @@ else()
 endif()
 
 # Support cross compiling
+# OASIS STAR API integration (OWolf3D). Off by default.
+option(OASIS_STAR_API "Enable OASIS STAR API integration" OFF)
+set(OGENGINE_DIR "" CACHE PATH "Path containing ogengine.h (e.g. OASIS Omniverse/OGEngineClient)")
+set(OGENGINE_LIB_DIR "" CACHE PATH "Path containing ogengine.lib/dll if pre-built; empty = OGENGINE_DIR/build/Release")
+
 option(TOOLS_ONLY "Only build the tools, not ecwolf itself (useful for cross-compiling)" OFF)
 
 option( FORCE_CROSSCOMPILE "Turn on cross compiling." NO )

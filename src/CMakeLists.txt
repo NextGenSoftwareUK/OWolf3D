@@ -319,6 +319,22 @@ file(GLOB HEADER_FILES
 list(APPEND HEADER_FILES ${CMAKE_CURRENT_BINARY_DIR}/versiondefs.h)
 target_sources(engine PRIVATE ${HEADER_FILES})
 
+if(OASIS_STAR_API)
+	target_compile_definitions(engine PRIVATE OASIS_STAR_API)
+	target_sources(engine PRIVATE owolf3d_ogengine_integration.cpp oasis/ogengine_sync.c)
+	target_include_directories(engine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/oasis)
+	if(OGENGINE_LIB_DIR)
+		target_link_directories(engine PRIVATE ${OGENGINE_LIB_DIR})
+	elseif(OGENGINE_DIR)
+		target_link_directories(engine PRIVATE ${OGENGINE_DIR}/build/Release ${OGENGINE_DIR}/build/Debug ${OGENGINE_DIR}/build)
+	endif()
+	if(WIN32)
+		target_link_libraries(engine PRIVATE ogengine winhttp)
+	else()
+		target_link_libraries(engine PRIVATE ogengine)
+	endif()
+endif()
+
 add_dependencies(engine revision_check)
 target_link_libraries(engine PRIVATE
 	SDL2_mixer::SDL2_mixer

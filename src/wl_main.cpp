@@ -7,6 +7,9 @@
 #endif
 
 #include "wl_def.h"
+#ifdef OASIS_STAR_API
+#include "owolf3d_ogengine_integration.h"
+#endif
 #include "wl_menu.h"
 #include "id_ca.h"
 #include "id_sd.h"
@@ -911,6 +914,14 @@ static const char* CheckParameters(int argc, char *argv[], TArray<FString> &file
 	for(int i = 1; i < argc; i++)
 	{
 		char *arg = argv[i];
+#ifdef OASIS_STAR_API
+		IFARG("--star")
+		{
+			if(++i < argc)
+				OWolf3D_STAR_QueueCommand(argv[i]);
+		}
+		else
+#endif
 		IFARG("--baby")
 			param_difficulty = 0;
 		else IFARG("--easy")
@@ -1313,6 +1324,9 @@ int WL_Main (int argc, char *argv[])
 		printf("InitGame: Setting up the game...\n");
 		rngseed = I_MakeRNGSeed(); // May change after initializing a net game
 		InitGame();
+#ifdef OASIS_STAR_API
+		OWolf3D_STAR_Init();
+#endif
 
 		FRandom::StaticClearRandom();
 
